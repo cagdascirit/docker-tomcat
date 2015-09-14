@@ -9,7 +9,9 @@ ENV PATH=${CATALINA_HOME}/bin:${PATH}
 
 RUN mkdir -p "$CATALINA_HOME" && \
 	apt-get -y update && \
-	apt-get -y install curl 
+	apt-get -y install \
+	curl \
+	supervisor 
 
 RUN curl -fSL https://www.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR}/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz -o tomcat.tar.gz && \
 	tar -xzf tomcat.tar.gz --strip-components=1 -C ${CATALINA_HOME}
@@ -21,6 +23,8 @@ RUN rm -rf tomcat.tar.gz \
 	apt-get -y clean && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+ADD supervisord.conf /etc/supervisor/conf.d/
+
 EXPOSE 8080
 
-ENTRYPOINT ["catalina.sh","run"]
+ENTRYPOINT ["supervisord"]
