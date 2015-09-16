@@ -24,6 +24,7 @@ RUN rm -rf tomcat.tar.gz \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ADD supervisord.conf /etc/supervisor/conf.d/
+ADD	statsd-jvm-profiler-0.8.3-SNAPSHOT.jar /var/lib/
 
 EXPOSE 8080
 
