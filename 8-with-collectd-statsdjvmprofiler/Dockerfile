@@ -8,6 +8,7 @@ ENV CATALINA_HOME=/usr/local/tomcat
 ENV PATH=${CATALINA_HOME}/bin:${PATH}
 
 RUN mkdir -p "$CATALINA_HOME" && \
+	echo "deb http://httpredir.debian.org/debian stretch main contrib" | tee -a /etc/apt/sources.list && \
 	apt-get -y update && \
 	apt-get -y install \
 	curl \
@@ -24,7 +25,7 @@ RUN rm -rf tomcat.tar.gz \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ADD supervisord.conf /etc/supervisor/conf.d/
-ADD	statsd-jvm-profiler-0.8.3-SNAPSHOT.jar /var/lib/
+ADD statsd-jvm-profiler-0.8.3-SNAPSHOT.jar /var/lib/
 
 EXPOSE 8080
 
